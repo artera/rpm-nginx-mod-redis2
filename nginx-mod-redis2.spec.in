@@ -1,7 +1,7 @@
 Summary: Redis 2.0 protocol module
 Name: nginx-mod-redis2
 Version: 0.15
-Release: 2%{?dist}
+Release: 1%{?dist}
 Vendor: Artera
 URL: https://github.com/openresty/redis2-nginx-module
 
@@ -43,7 +43,7 @@ Redis 2.0 protocol module.
 
 %build
 cd %{_builddir}/nginx-%{_nginxver}
-./configure %(nginx -V 2>&1 | grep 'configure arguments' | sed -r 's@^[^:]+: @@') --add-dynamic-module=../%{_modname}-nginx-module-%{version}
+./configure --with-file-aio --with-ipv6 --with-stream %(nginx -V 2>&1 | grep -Po -- '--with-http[^ ]+' | xargs echo) --with-cc-opt='%{optflags}' --add-dynamic-module=../%{_modname}-nginx-module-%{version}
 make modules
 
 %install
